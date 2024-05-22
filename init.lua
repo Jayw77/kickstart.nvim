@@ -286,10 +286,16 @@ require('lazy').setup({
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+        ['<leader>W'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        -- ['<leader>tf'] = { '<cmd>ToggleTerm direction=float<cr>', 'Float' }, -- Floating Terminal
+        ['<leader>T'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
       }
+
+      -- Load additional bindings
+      local extra_bindings = require('custom.which-key-extra-binds').keybindings
+      require('which-key').register(extra_bindings, { prefix = '<leader>' })
+
       -- visual mode
       require('which-key').register({
         ['<leader>h'] = { 'Git [H]unk' },
@@ -324,13 +330,13 @@ require('lazy').setup({
         end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
-      
-      -- If you want to use the telescope file browser extension
-      {"nvim-telescope/telescope-file-browser.nvim" },
-      -- telescope project extension
-      {"nvim-telescope/telescope-project.nvim" },
 
-    -- Useful for getting pretty icons, but requires a Nerd Font.
+      -- If you want to use the telescope file browser extension
+      { 'nvim-telescope/telescope-file-browser.nvim' },
+      -- telescope project extension
+      { 'nvim-telescope/telescope-project.nvim' },
+
+      -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
@@ -362,14 +368,14 @@ require('lazy').setup({
         defaults = {
           mappings = {
             n = {
-              ['<c-d>'] = require('telescope.actions').delete_buffer
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
             },
             i = {
-              ["<C-h>"] = "which_key",
-              ['<c-d>'] = require('telescope.actions').delete_buffer
-            }
-             -- i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-           },
+              ['<C-h>'] = 'which_key',
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
+            },
+            -- i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          },
         },
         -- pickers = {}
         extensions = {
@@ -402,7 +408,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Telescope project<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Telescope project<CR>', { noremap = true, silent = true })
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
@@ -561,7 +567,7 @@ require('lazy').setup({
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map('<leader>th', function()
+            map('<leader>Th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, '[T]oggle Inlay [H]ints')
           end
@@ -929,6 +935,12 @@ require('lazy').setup({
     },
   },
 })
+
+-- My extra config files
+-- NOTE: Later custom plugins is sourced automatically by kickstart, which keys are done as part
+-- of the which key config later in this file, any other files that need sourcing can be done here
+require 'custom.functions.terminal-toggle'
+require 'custom.general-binds'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
