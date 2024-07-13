@@ -18,7 +18,10 @@ return {
       filtered_items = {
         visible = true, -- shows hidden items differently
         hide_dotfiles = false,
+        hide_gitignored = false, -- Don't hide .gitignore files
+        never_show = {}, -- This list should be empty to ensure .git is visible
       },
+      follow_current_file = { enabled = true }, -- Optional: Automatically focus on the current file
       window = {
         mappings = {
           ['\\'] = 'close_window',
