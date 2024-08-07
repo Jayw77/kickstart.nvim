@@ -27,18 +27,10 @@
 --   vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
 --   vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
 -- end
---
--- -- Create an autocommand to set terminal keymaps when a terminal is opened
--- vim.cmd 'autocmd! TermOpen term://* lua set_terminal_keymaps()'
-
-vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', 'jk', [[<C-\><C-n>]], { noremap = true, silent = true })
-
---lazygit pre-req
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new { cmd = 'lazygit', hidden = true, direction = 'float' }
 
 -- _G. make the function globally useable
 function _G._lazygit_toggle()
+  local Terminal = require('toggleterm.terminal').Terminal
+  local lazygit = Terminal:new { cmd = 'lazygit', hidden = true, direction = 'float' }
   lazygit:toggle()
 end

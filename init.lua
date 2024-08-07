@@ -282,10 +282,14 @@ require('lazy').setup({
 
       -- Document existing key chains
       require('which-key').register {
+        -- which_key_ignore is used to ignore any keybindings you list underneath here as sub fields
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+        ['<leader>s'] = {
+          name = '[S]earch',
+          t = { '<cmd>lua require("telescope.builtin").live_grep()<cr>', '[S]earch [T]ext' }, -- live grep text within current dir
+        },
         ['<leader>W'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         -- ['<leader>tf'] = { '<cmd>ToggleTerm direction=float<cr>', 'Float' }, -- Floating Terminal
         ['<leader>T'] = { name = '[T]oggle', _ = 'which_key_ignore' },
@@ -682,7 +686,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform will run multiple formatters sequentially
         go = { 'goimports', 'gofmt' },
-        markdown = { 'prettier' },
+        markdown = { 'prettier', 'markdownlint' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
